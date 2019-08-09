@@ -1,12 +1,60 @@
 // Телефонная книга
-var phoneBook = {};
+var phoneBook = [];
+
+function showBook() {
+    var res = phoneBook.sort().filter(function(s) {
+        //s.indexOf(':')
+        return s.indexOf('-', s.indexOf(':')) != -1
+    })
+    return res
+}
+
+function searchName(array, name) {
+    //console.log("searching for " + name)
+    let i = 0;
+    while (i < array.length) {
+        if (array[i].startsWith(name + ':')) {
+            return i 
+        }
+        i++
+    }
+    return -1
+}
 
 function addContact(s) {
-    
+    //console.log("adding contact: " + s)
+    var name = s[1]
+    var c = searchName(phoneBook, name)
+    //var c = phoneBook.indexOf(s[1])
+    if (c === -1) {
+        //console.log('adding ' + name)
+        phoneBook.push(name + ': ' + s[2].split(',').join(', ').trim()
+        )
+    } else { //entry already exists
+        //phoneBook[c] = phoneBook[c] + ', ' + s[2].split(',').join(', ')
+        phoneBook[c] = name + ": " + phoneBook[c].slice(name.length+ 2,).split(', ')
+            .concat(s[2].split(',')).join(', ').trim()
+        // console.log("new=" + phoneBook[c])
+    }
 }
 
 function removePhone(s) {
-
+    var tel_no = s[1]
+    for(i = 0; i < phoneBook.length; i++) {
+        var name = phoneBook[i].slice(0, phoneBook[i].indexOf(':'))
+        var numbers = phoneBook[i].slice(phoneBook[i].indexOf(':') + 1, )
+            .split(', ')
+        console.log("numbers=" + numbers + " tel_no=" + tel_no)
+        var ind = numbers.indexOf(tel_no)
+        if (ind != -1) {
+            console.log("found number under index" + ind)
+            phoneBook[i] = name + ': ' + numbers.filter(function(number) {
+                return number != tel_no
+            }).join(', ').trim()
+            return true
+        }
+    }
+    return false
 }
 
 /**
@@ -31,7 +79,7 @@ module.exports = function (command) {
     if (c === 'ADD') {
         return addContact(s);
     } else if (c === 'SHOW') {
-        return phoneBook;
+        return showBook();
     } else if (c === 'REMOVE_PHONE') {
         return removePhone(s)
     }

@@ -17,6 +17,7 @@ assert.deepEqual(
     ],
     'В телефонной книге: "Ivan: 555-10-01, 555-10-03, 555-10-02"'
 );
+//console.log("book=" + phoneBook('SHOW'));
 
 // Проверка работы функции REMOVE_PHONE
 assert.equal(
@@ -26,7 +27,9 @@ assert.equal(
     'Телефон 555-10-03 успешно удален'
 );
 // Добавляем новый контакт
+//console.log("book=" + phoneBook('SHOW'));
 phoneBook('ADD Alex 555-20-01');
+//console.log("book=" + phoneBook('SHOW'));
 
 // Проверка работы функции SHOW
 assert.deepEqual(
@@ -40,7 +43,11 @@ assert.deepEqual(
 );
 
 // Удаляем телефон
+// console.log("book=" + phoneBook('SHOW'));
+console.log("book=" + phoneBook('SHOW'));
+
 phoneBook('REMOVE_PHONE 555-20-01');
+console.log("book=" + phoneBook('SHOW'));
 
 // Проверка работы функции SHOW
 assert.deepEqual(
