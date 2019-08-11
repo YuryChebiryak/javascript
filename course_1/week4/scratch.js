@@ -48,10 +48,16 @@ var friends = [
         favoriteFruit: 'Картофель'
     }
 ];
-console.log("friends=", friends)
-var fruit_lovers =     lib.filterIn('favoriteFruit', ['Яблоко', 'Картофель'])(friends)
-console.log("fruit=", fruit_lovers)
+// console.log("friends=", friends)
+// var fruit_lovers =     lib.filterIn('favoriteFruit', ['Яблоко', 'Картофель'])(friends)
+// console.log("fruit=", fruit_lovers)
 
-var selected = lib.select('name', 'gender', 'email')(friends)
+// var selected = lib.select('name', 'gender', 'email')(friends)
 
-console.log("selection", selected)
+// console.log("selection", selected)
+
+var result = lib.query(
+    friends,
+    lib.filterIn('favoriteFruit', ['Яблоко', 'Картофель'])
+);
+console.log("invoke filtering=", result)

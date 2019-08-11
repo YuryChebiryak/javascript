@@ -9,14 +9,29 @@
 function query(collection) {
     var copy = JSON.parse(JSON.stringify(collection))
     var args = [].slice.call(arguments)
-    var commands = args.slice(1,)
-//    for (let op in commands) {
-    for (let i = 1; i < args.length; i++) {
-
-        console.log("op=", args[i])
-        //copy = args[i].call(copy)
-
+    var commands = args.slice(1);
+    for (let op of commands) {
+        if (op.name === 'filterIn') {
+            copy = op(copy)
+        }
     }
+    for (let op of commands) {
+        if (op.name !== 'filterIn') {
+            copy = op(copy)
+        }
+    }
+//    for (let op in commands) {
+    //first apply all the filters, then non-filters?
+    // for (let i = 1; i < args.length; i++) {
+    //     if (args[i].name === 'filterIn') {
+    //         copy = args[i](copy)
+    //     }
+    // }
+    // for (let i = 1; i < args.length; i++) {
+    //     if (args[i].name !== 'filterIn') {
+    //         copy = args[i](copy)
+    //     }
+    // }
     return copy
 }
 
@@ -36,7 +51,7 @@ function select() {
             }
             res.push(newObj)
         }
-        console.log("select=", res)
+        //console.log("select=", res)
         return res;
     }
 }
@@ -64,7 +79,7 @@ function filterIn(property, values) {
                 // }
             }
         }
-        console.log("filterIn=", res)
+        //console.log("filterIn=", res)
         return res
     }
 }
