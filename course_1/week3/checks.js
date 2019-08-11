@@ -4,6 +4,18 @@ var assert = require('assert');
 // Подключаем свою функцию
 var date = require('./index.js');
 
+var test = date('2017-05-16 13:45')
+console.log(test.value)
+test.add(24, 'hours')
+console.log(test.value)
+test.subtract(1, 'months')
+console.log(test.value)
+test.add(3, 'days')
+console.log(test.value)
+test.add(15, 'minutes');
+console.log(test.value)
+
+
 var time = date('2017-05-16 13:45')
     .add(24, 'hours')
     .subtract(1, 'months')

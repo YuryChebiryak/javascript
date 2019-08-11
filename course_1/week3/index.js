@@ -32,14 +32,32 @@
 // ); 
 // tweet.linkify
 
-/**
- * @param {String} date
- * @returns {Object}
- */
-module.exports = function (date) {
-    return { 
-        _d : new Date(),
-        get_mult : function(units) {
+class MyDate {
+    //    value : new Date,
+        constructor(date) {
+            this.date = this.str_to_date(date)
+            this.updateValue();
+            return this
+        };
+        str_to_date(str_date) {
+            var parsed = str_date.match(/(\d\d\d\d)-(\d\d)-(\d\d)\ (\d\d):(\d\d)/)
+            return new Date(parsed[1], parsed[2] - 1, parsed[3], parsed[4], parsed[5])
+        };
+        toString() {
+            return 'bublic';
+        };
+        updateValue() {
+            //this.value = this.date.toLocaleFormat('%Y-%m-%d %h:%m');
+            var year = this.date.getFullYear();
+            var month = this.date.getMonth() + 1;
+            var day = this.date.getDate();
+            var hours = this.date.getHours();
+            var minutes = this.date.getMinutes();           
+            this.value = year + "-" + month.toString().padStart(2, '0') + "-" + day.toString().padStart(2, '0')
+             + " " + hours.toString().padStart(2, '0') + ":" + minutes.toString().padStart(2, '0');            
+        };
+       // value = new Date;
+        get_mult(units) {
             var mult = 0;
             if (units === 'minutes') {
                 mult = 1;
@@ -51,40 +69,61 @@ module.exports = function (date) {
                 mult = 30 * 60 * 24;
             } else if (units === 'years') {
                 mult = 365 * 60 * 24;
+            } else {
+                throw new TypeError;
             }
             return mult;
-        },
-        date : function(str_date) {
-            var regex = '/(\d\d\d\d)-(\d\d)-(\d\d)\ (\d\d):(\d\d)/'
-            var parsed = str_date.match(regex)
-            this._d = new Date(parsed[1], parsed[2] - 1, parsed[3], parsed[4], parsed[5])
-            return this
-        },
-        add : function(n, units) {
-            //this._d.setMinutes(this.get_mult(units) * n)
+        };
+        add(n, units) {
+            //this.value.setMinutes(this.get_mult(units) * n)
             if (units === 'minutes') {
-                this._d.setMinutes(n);
+                this.date.setMinutes(this.date.getMinutes() + n);
             } else if (units === 'hours') {
-                this._d.setHours(n);
+                this.date.setHours(this.date.getHours() + n);
             } else if (units === 'days') {
-                this._d.setMinutes(n * 24 * 60);
+                this.date.setDate(n + this.date.getDate());
             } else if (units === 'months') {
-                this._d.setMonth(n)
+                this.date.setMonth(this.date.getMonth() + n)
+            } else {
+                throw new TypeError;
             }
+            this.updateValue()
             return this;
-        },
-        subtract : function(n, units) {
+        };
+        subtract(n, units) {
+            if (n < 0) {
+                throw new TypeError;
+            }
             if (units === 'minutes') {
-                this._d.setMinutes(-n);
+                this.date.setMinutes(this.date.getMinutes()-n);
             } else if (units === 'hours') {
-                this._d.setHours(-n);
+                this.date.setHours(this.date.getHours() -n);
             } else if (units === 'days') {
-                this._d.setMinutes(-n * 24 * 60);
+                this.date.setDate(this.date.getDate() -n );
             } else if (units === 'months') {
-                this._d.setMonth(-n)
+                this.date.setMonth(this.date.getMonth() - n)
+            } else {
+                throw new TypeError;
             }
-            //this._d.setMinutes(- this.get_mult(units) * n)
+            //this.value.setMinutes(- this.get_mult(units) * n)
+            this.updateValue()
             return this;
-        }
-    }
+        };
+};
+
+
+/**
+ * @param {String} date
+ * @returns {Object}
+ */
+module.exports = function (date) {
+    // str_to_date : function(str_date) {
+    //     var regex = '/(\d\d\d\d)-(\d\d)-(\d\d)\ (\d\d):(\d\d)/'
+    //     var parsed = str_date.match(regex)
+    //     return new Date(parsed[1], parsed[2] - 1, parsed[3], parsed[4], parsed[5])
+    // };
+    //var str_date = date;
+    //var value = new Date();
+
+    return new MyDate(date);
 };
