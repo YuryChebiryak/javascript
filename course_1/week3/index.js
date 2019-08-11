@@ -75,6 +75,9 @@ class MyDate {
             return mult;
         };
         add(n, units) {
+            if (n < 0) {
+                throw new TypeError;
+            }
             //this.value.setMinutes(this.get_mult(units) * n)
             if (units === 'minutes') {
                 this.date.setMinutes(this.date.getMinutes() + n);
@@ -83,7 +86,9 @@ class MyDate {
             } else if (units === 'days') {
                 this.date.setDate(n + this.date.getDate());
             } else if (units === 'months') {
-                this.date.setMonth(this.date.getMonth() + n)
+                this.date.setMonth(this.date.getMonth() + n);
+            } else if (units === 'years') {
+                this.date.setFullYear(this.date.getFullYear() + n);
             } else {
                 throw new TypeError;
             }
@@ -102,6 +107,8 @@ class MyDate {
                 this.date.setDate(this.date.getDate() -n );
             } else if (units === 'months') {
                 this.date.setMonth(this.date.getMonth() - n)
+            } else if (units === 'years') {
+                this.date.setFullYear(this.date.getFullYear() - n);
             } else {
                 throw new TypeError;
             }
