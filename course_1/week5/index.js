@@ -16,12 +16,12 @@ module.exports = {
      * @param {Function} handler
      */
     on: function (event, subscriber, handler) {
-        console.log("on() ")
+        //console.log("on() ")
         if (this.subscriptions.hasOwnProperty(event)) {
             var arr = this.subscriptions[event]
             arr.push(new this.Subscription(event, subscriber, handler))
             // for (let s of this.subscriptions[event]) {
-            //     console.log(s)
+            //     //console.log(s)
             // }
         } else {
             this.subscriptions[event] = [new this.Subscription(event, subscriber, handler)]
@@ -34,7 +34,7 @@ module.exports = {
      * @param {Object} subscriber
      */
     off: function (event, subscriber) {
-        console.log("off() ")
+        //console.log("off() ")
         if (this.subscriptions.hasOwnProperty(event)) {
             var arr = this.subscriptions[event]
             this.subscriptions[event] = arr.filter(s => s.subscriber != subscriber)
@@ -46,7 +46,7 @@ module.exports = {
      * @param {String} event
      */
     emit: function (event) {
-        console.log("emit() ")
+        //console.log("emit() ")
         if (this.subscriptions.hasOwnProperty(event)) {
             var arr = this.subscriptions[event]
             for (let s of arr) {
