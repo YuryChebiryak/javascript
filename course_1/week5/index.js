@@ -1,6 +1,9 @@
 module.exports = {
-    subscriptions = {},
-    subscription : function(e, s, h) {
+    subscriptions : {},
+    getSelf : function() {
+        return this;
+    },
+    Subscription : function(e, s, h) {
         return {
             event:      e,
             subscriber: s,
@@ -13,15 +16,17 @@ module.exports = {
      * @param {Function} handler
      */
     on: function (event, subscriber, handler) {
+        console.log("on() ")
         if (this.subscriptions.hasOwnProperty(event)) {
-            var arr = this.subscription[event]
-            arr.push(new subscription(event, subscriber, handler))
+            var arr = this.subscriptions[event]
+            arr.push(new this.Subscription(event, subscriber, handler))
             for (let s of this.subscriptions[event]) {
                 console.log(s)
             }
         } else {
-            this.subscription[event] = [new this.subscription(event, subscriber, handler)]
+            this.subscriptions[event] = [new this.Subscription(event, subscriber, handler)]
         }
+        return this.getSelf()
     },
 
     /**
@@ -29,6 +34,7 @@ module.exports = {
      * @param {Object} subscriber
      */
     off: function (event, subscriber) {
+        console.log("off() ")
 
     },
 
@@ -36,6 +42,12 @@ module.exports = {
      * @param {String} event
      */
     emit: function (event) {
-
+        console.log("emit() ")
+        if (this.subscriptions.hasOwnProperty(event)) {
+            var arr = this.subscriptions[event]
+            for (let s of arr) {
+                s.handler.call(s.s)
+            }
+        }
     }
 };

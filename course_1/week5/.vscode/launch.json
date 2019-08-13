@@ -7,6 +7,12 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "scratch",
+            "program": "${workspaceFolder}/scratch.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "lecture",
             "program": "${workspaceFolder}\\lecture.js"
         }
