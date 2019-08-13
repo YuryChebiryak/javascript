@@ -20,9 +20,9 @@ module.exports = {
         if (this.subscriptions.hasOwnProperty(event)) {
             var arr = this.subscriptions[event]
             arr.push(new this.Subscription(event, subscriber, handler))
-            for (let s of this.subscriptions[event]) {
-                console.log(s)
-            }
+            // for (let s of this.subscriptions[event]) {
+            //     console.log(s)
+            // }
         } else {
             this.subscriptions[event] = [new this.Subscription(event, subscriber, handler)]
         }
@@ -35,7 +35,11 @@ module.exports = {
      */
     off: function (event, subscriber) {
         console.log("off() ")
-
+        if (this.subscriptions.hasOwnProperty(event)) {
+            var arr = this.subscriptions[event]
+            this.subscriptions[event] = arr.filter(s => s.subscriber != subscriber)
+        }
+        return this.getSelf()
     },
 
     /**
@@ -46,8 +50,9 @@ module.exports = {
         if (this.subscriptions.hasOwnProperty(event)) {
             var arr = this.subscriptions[event]
             for (let s of arr) {
-                s.handler.call(s.s)
+                s.handler.call(s.subscriber)
             }
         }
+        return this.getSelf()
     }
 };
