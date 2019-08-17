@@ -18,12 +18,13 @@ module.exports = function(operations, callback) {
                 }
             // called = true
             } else {
-                operations[index](next)
+                operations[index](function(e, r) {next(e, r)} )
             }
         }
     };
     if (operations.length === 0) {
-        return [];
+        callback(null, [])
+        return;
     }
     var index = 0
     error = null
