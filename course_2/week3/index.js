@@ -4,6 +4,24 @@
  */
 
 module.exports = function(operations, callback) {
+    function next(e, r=null) {    //task with index is done
+        if (e != null) {// && !called) {
+            callback(e, null)
+            error = e
+            // called = true
+        } else {
+            results.push(r)
+            index++;
+            if (index === operations.length) { // && !called) { // all tasks are done
+                if (!error) {
+                    callback(null, results)
+                }
+            // called = true
+            } else {
+                operations[index](next)
+            }
+        }
+    };
     if (operations.length === 0) {
         return [];
     }
@@ -11,20 +29,7 @@ module.exports = function(operations, callback) {
     error = null
     results = []
     var called = false
-    next = function(e, r) {    //task with index is done
-        if (e != null) {// && !called) {
-            callback(e, null)
-            // called = true
-        } else {
-            results.push(r)
-            index++;
-            if (index === operations.length) { // && !called) { // all tasks are done
-                callback(null, results)
-            // called = true
-            }
-            operations[index](this.next)
-        }
-    }
+
     operations[0](next)
 }
 
