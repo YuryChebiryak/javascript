@@ -7,6 +7,12 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "quiz4",
+            "program": "${workspaceFolder}/quiz4.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "checks",
             "program": "${workspaceFolder}/checks.js"
         }
