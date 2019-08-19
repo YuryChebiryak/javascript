@@ -25,7 +25,7 @@
     }
     const validateLetters = function(elem) {
         var re = new RegExp('[a-zA-Zа-яА-я]');
-        if (!re.match(elem.value)) {
+        if (!elem.value.match(re)) {
             elem.classList.add(inputErrorClass);
         }
     }
@@ -38,7 +38,7 @@
     }
     const validateRegexp = function(elem, pattern) {
         var re = new RegExp(pattern);
-        if (!re.match(elem.value)) {
+        if (!elem.value.match(re)) {
             elem.classList.add(inputErrorClass);
         }
     }
